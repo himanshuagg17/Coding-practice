@@ -1,9 +1,6 @@
 const express=require("express");
 const {OrderModel}=require("../models/orders.model");
-const {UserModel}=require("../models/user.model");
 
-// we have taken the restaurant model here because we want the data from the restaurant model to be used in the orders model.
-const {RestaurantModel}=require("../models/restaurant.model")
 const OrderRouter=express.Router();
 
 OrderRouter.post("/create",async (req,res)=>{
@@ -32,7 +29,32 @@ OrderRouter.post("/create",async (req,res)=>{
 })
 
 
+OrderRouter.get("/:id",async(req,res)=>{
+     let orderid=req.params.id;
 
+     let order=await OrderModel.findOne({_id:orderid});
+
+     res.send({"the order details":order});
+})
+
+
+OrderRouter.patch("/:id",async(req,res)=>{
+    let orderid=req.params.id;
+
+    
+
+    let order=await OrderModel.findOne({_id:orderid});
+
+    if(order){
+        order.status=req.body.status;
+        await order.save();
+        res.send("the order status has been changed");
+    }
+    else{
+        res.send("enter a valid order id");
+    }
+
+})
 
 
 
