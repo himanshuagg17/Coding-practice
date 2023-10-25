@@ -19,6 +19,8 @@ UserRouter.post("/register",async(req,res)=>{
                     name,
                     email,
                     password:hash,
+                    address,
+                    phone
                 })
                 await user.save();
                 res.send("the user has been registered");
